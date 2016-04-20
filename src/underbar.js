@@ -104,6 +104,20 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var result = [];
+    var goodToGo;
+    _.each(array, function(arrItem){
+      goodToGo = true;
+      _.each(result,function(resItem){
+        if(arrItem === resItem){
+          goodToGo = false;
+        }
+      });
+      if(goodToGo){
+        result.push(arrItem);
+      }
+    });
+    return result;
   };
 
 
