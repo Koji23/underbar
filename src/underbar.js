@@ -313,6 +313,21 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var result = {};
+    return function(){
+      var key = "";
+      for(var i=0; i<arguments.length; i++){
+        key += (arguments[i]);
+      }
+      if(result[key]){
+        //console.log("returning " + result[key] + " from result[key]");
+        return result[key];
+      } else{
+        result[key] = func.apply(this, arguments);
+        //console.log("First time. Logging " + key + " as key. Result[key] = " + result[key]);
+        return result[key];
+      }
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
