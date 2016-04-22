@@ -315,10 +315,7 @@
   _.memoize = function(func) {
     var result = {};
     return function(){
-      var key = "";
-      for(var i=0; i<arguments.length; i++){
-        key += (arguments[i]);
-      }
+      var key = JSON.stringify(arguments);
       if(result[key]){
         //console.log("returning " + result[key] + " from result[key]");
         return result[key];
@@ -337,6 +334,13 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = [];
+    for(var i=2; i<arguments.length; i++){
+      args.push(arguments[i]);
+    }
+    return setTimeout(function(){
+      func.apply(this, args);
+    }, wait);
   };
 
 
