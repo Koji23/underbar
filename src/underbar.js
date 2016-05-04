@@ -480,6 +480,22 @@
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var results = [];  
+    var intersects = [];
+    for(var i=1; i<arguments.length; i++){
+      intersects.push(_.intersection(arguments[0], arguments[i]));
+    }
+    _.flatten(intersects);
+    _.each(arguments[0], function(item){
+      var test = true;
+      _.each(intersects, function(reject){
+        if(item == reject){
+          test = false;
+        }
+      });
+      if(test) results.push(item);
+    });
+    return results;
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
