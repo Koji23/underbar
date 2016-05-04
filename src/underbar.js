@@ -504,5 +504,13 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+    var goodToGo = true;
+    return function(){
+      if(goodToGo){
+        func();
+        goodToGo = false;
+        setTimeout(function(){goodToGo = true;},wait);
+      }
+    };
   };
 }());
