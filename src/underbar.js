@@ -407,13 +407,46 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var args = arguments;
+    var largestIndex = 0;
+    var results = [];
+
+    _.each(arguments, function(item){
+      if(item.length > largestIndex){
+        largestIndex = item.length;
+      }
+    });
+    for(var i = 0; i < largestIndex - arguments[0].length; i++){
+      arguments[0].push(undefined);
+    }
+
+    _.each(arguments[0], function(item, index){
+      var newArr = [];
+      _.each(args, function(arr){
+        newArr.push(arr[index]);
+      });
+      results.push(newArr);
+    });
+    return results;  
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
   // The new array should contain all elements of the multidimensional array.
   //
   // Hint: Use Array.isArray to check if something is an array
-  _.flatten = function(nestedArray, result) {
+  _.flatten = function(nestedArray) {  
+    //note: recursive solution does not require 'result' parameter
+    var flatArray = [];
+    _.each(nestedArray, function(item){
+      if(Array.isArray(item)){
+        _.each(_.flatten(item),function(innerItem){
+          flatArray.push(innerItem);
+        });
+      }else{
+        flatArray.push(item);
+      }
+    });
+    return flatArray;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
